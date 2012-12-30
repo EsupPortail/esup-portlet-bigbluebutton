@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.esupportail.bigbluebutton</groupId>
+    <artifactId>esup-portlet-bigbluebutton</artifactId>
+    <name>Esup portlet BigBlueButton</name>
+    <version>1.0.0-beta1</version>
+    <packaging>pom</packaging>
+    <description>A JSR168 portlet developped with esup commons v2 and Spring MVC. It allows users to create and join conferences on a BigBlueButton server.</description>
+    <scm>
+	    <connection>scm:svn:https://subversion.cru.fr/esupportletbbb/</connection>
+  	</scm>
+    
+    <repositories>
+         <repository>
+            <id>esup-snapshots</id>
+            <url>https://mvn.esup-portail.org/content/repositories/snapshots</url>
+            <snapshots>
+            </snapshots>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+        </repository>  
+        <repository>
+            <id>esup</id>
+            <url>https://mvn.esup-portail.org/content/repositories/releases</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <releases>
+            </releases>
+        </repository>
+    </repositories>
+    <distributionManagement>
+	    <site>
+	      <id>website</id>
+	      <url>dav:http://sourcesup.cru.fr/esupportletbbb</url>
+	    </site>
+    
+        <repository>
+            <id>esup</id>
+            <name>esup-portail</name>
+            <url>https://mvn.esup-portail.org/content/repositories/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>esup</id>
+            <name>esup-portail</name>
+            <url>https://mvn.esup-portail.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+    <build>
+        <defaultGoal>install</defaultGoal>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <minmemory>128m</minmemory>
+                    <maxmemory>512m</maxmemory>
+                    <goal>javadoc:javadoc</goal>
+                    <reportOutputDirectory>docs/javadoc</reportOutputDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-eclipse-plugin</artifactId>
+                <version>2.8</version>
+                <configuration>
+                    <useProjectReferences>true</useProjectReferences>
+                    <additionalConfig>
+                        <file>
+                            <name>.checkstyle</name>
+                            <url>http://subversion.cru.fr/esup-commons/utils/checkstyle/checkstyle.xml</url>
+                        </file>
+                    </additionalConfig>
+                    <additionalProjectFacets>
+                        <jst.jstl>2.0</jst.jstl>
+                    </additionalProjectFacets>
+                    <additionalProjectnatures>
+                        <projectnature>org.springframework.ide.eclipse.core.springnature</projectnature>
+                    </additionalProjectnatures>
+                    <additionalBuildcommands>
+                        <buildcommand>org.springframework.ide.eclipse.core.springbuilder</buildcommand>
+                    </additionalBuildcommands>
+                    <downloadSources>true</downloadSources>
+                    <downloadJavadocs>true</downloadJavadocs>
+                    <wtpversion>2.0</wtpversion>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>maven-jetty-plugin</artifactId>
+                <version>6.1.26</version>
+                <configuration>
+                    <contextPath>/</contextPath>
+                    <!-- <scanIntervalSeconds>3</scanIntervalSeconds> <scanTargetPatterns>
+                        <scanTargetPattern> <directory>src/main/webapp/WEB-INF</directory> <excludes>
+                        <exclude>**/*.jsp</exclude> <exclude>**/*.xhtml</exclude> </excludes> <includes>
+                        <include>**/*.properties</include> <include>**/*.xml</include> </includes>
+                        </scanTargetPattern> </scanTargetPatterns> -->
+                </configuration>
+            </plugin>
+            <plugin>
+            	<groupId>org.apache.maven.plugins</groupId>
+            	<artifactId>maven-release-plugin</artifactId>
+            	<version>2.2.2</version>
+            	<configuration>
+			        <preparationGoals>clean install</preparationGoals>
+			        <goals>deploy</goals>
+			     </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <properties>
+        <esupcommons.version>0.2.8</esupcommons.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+  <modules>
+    <module>esup-portlet-bigbluebutton-dao</module>
+    <module>esup-portlet-bigbluebutton-utils</module>
+    <module>esup-portlet-bigbluebutton-domain-beans</module>
+    <module>esup-portlet-bigbluebutton-domain-services</module>
+    <module>esup-portlet-bigbluebutton-web-springmvc-portlet</module>
+  </modules>
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.0.1</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.8.1</version>
+        <configuration>
+          <doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>
+
+          <!-- <docletPath>/path/to/UmlGraph.jar</docletPath> -->
+          <docletArtifact>
+            <groupId>org.umlgraph</groupId>
+            <artifactId>doclet</artifactId>
+            <version>5.1</version>
+          </docletArtifact>
+          <additionalparam>-views</additionalparam>
+          <useStandardDocletOptions>true</useStandardDocletOptions>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </reporting>
+  
+</project>

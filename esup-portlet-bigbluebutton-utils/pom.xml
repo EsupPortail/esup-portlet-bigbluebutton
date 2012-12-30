@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>esup-portlet-bigbluebutton</artifactId>
+        <groupId>org.esupportail.bigbluebutton</groupId>
+        <version>1.0.0-beta1</version>
+    </parent>
+    <groupId>org.esupportail.bigbluebutton</groupId>
+    <artifactId>esup-portlet-bigbluebutton-utils</artifactId>
+    <name>Esup portlet BigBlueButton utils</name>
+    <description>couche utilitaire</description>
+    <dependencies>
+    	<dependency>
+    		<groupId>commons-codec</groupId>
+    		<artifactId>commons-codec</artifactId>
+    		<version>20041127.091804</version>
+    		<type>jar</type>
+    		<scope>compile</scope>
+    	</dependency>
+    </dependencies>
+</project>

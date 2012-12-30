@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:/properties/defaults.properties</value>
+				<value>classpath:/properties/config.properties</value>
+			</list>
+		</property>
+	</bean>
+
+
+	<!-- | Standard JSP view resolver + -->
+	<bean id="jspViewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="cache" value="true" />
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+
+
+	<bean id="requiredAnnotationBeanPostProcessor"
+		class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor" />
+
+	<import
+		resource="classpath*:META-INF/esup-portlet-bigbluebutton-domain-services-domain.xml" />
+	<import
+		resource="classpath*:META-INF/esup-portlet-bigbluebutton-domain-services-auth.xml" />
+	<import
+		resource="classpath*:META-INF/esup-portlet-bigbluebutton-domain-services-ldap.xml" />
+	<import resource="properties/cache/cache.xml" />
+	<import resource="properties/i18n/i18n.xml" />
+	<import resource="properties/smtp/smtp.xml" />
+
+</beans>

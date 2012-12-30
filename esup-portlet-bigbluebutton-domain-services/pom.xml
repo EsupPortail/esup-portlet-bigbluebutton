@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>esup-portlet-bigbluebutton</artifactId>
+        <groupId>org.esupportail.bigbluebutton</groupId>
+        <version>1.0.0-beta1</version>
+    </parent>
+    <groupId>org.esupportail.bigbluebutton</groupId>
+    <artifactId>esup-portlet-bigbluebutton-domain-services</artifactId>
+    <name>Esup portlet BigBlueButton domain services</name>
+    <description>Domain Interface and Impl</description>
+    <dependencies>
+        <dependency>
+            <groupId>org.esupportail.bigbluebutton</groupId>
+            <artifactId>esup-portlet-bigbluebutton-domain-beans</artifactId>
+            <version>1.0.0-beta1</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.esupportail</groupId>
+            <artifactId>esup-commons2-auth</artifactId>
+            <version>${esupcommons.version}</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+        	<groupId>org.esupportail.bigbluebutton</groupId>
+        	<artifactId>esup-portlet-bigbluebutton-dao</artifactId>
+        	<version>1.0.0-beta1</version>
+        	<type>jar</type>
+        	<scope>compile</scope>
+        </dependency>
+        <dependency>
+        	<groupId>org.esupportail.bigbluebutton</groupId>
+        	<artifactId>esup-portlet-bigbluebutton-utils</artifactId>
+        	<version>1.0.0-beta1</version>
+        	<type>jar</type>
+        </dependency>
+        <dependency>
+			<groupId>org.esupportail</groupId>
+			<artifactId>esup-commons2-ldap</artifactId>
+			<version>${esupcommons.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>spring-tx</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.2</version>
+			<type>jar</type>
+			<scope>test</scope>
+		</dependency>
+    </dependencies>
+</project>

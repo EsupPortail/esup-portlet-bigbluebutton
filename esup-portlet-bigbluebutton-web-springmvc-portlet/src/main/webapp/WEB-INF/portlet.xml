@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd"
+	version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd
+                        http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd">
+
+	<portlet>
+		<portlet-name>${portlet.name}</portlet-name>
+		<display-name xml:lang="fr">esup-portlet-bigbluebutton-web-springmvc-portlet</display-name>
+		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
+		<init-param>
+			<name>contextConfigLocation</name>
+			<value>classpath:portletContext.xml</value>
+		</init-param>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>VIEW</portlet-mode>
+			<portlet-mode>EDIT</portlet-mode>
+			<portlet-mode>HELP</portlet-mode>
+			<portlet-mode>ABOUT</portlet-mode>
+		</supports>
+		<supported-locale>fr</supported-locale>
+		<supported-locale>en</supported-locale>
+		<portlet-info>
+			<title>esup-portlet-bigbluebutton-web-springmvc-portlet</title>
+			<short-title>esup-portlet-bigbluebutton-web-springmvc-portlet</short-title>
+			<keywords>esup-portlet-bigbluebutton-web-springmvc-portlet</keywords>
+		</portlet-info>
+
+		<portlet-preferences>
+			<preference>
+				<name>usernamepref</name>
+				<value>PortletWorld</value>
+			</preference>
+		</portlet-preferences>
+
+	</portlet>
+	<user-attribute>
+		<description>uid</description>
+		<name>uid</name>
+	</user-attribute>
+
+</portlet-app>

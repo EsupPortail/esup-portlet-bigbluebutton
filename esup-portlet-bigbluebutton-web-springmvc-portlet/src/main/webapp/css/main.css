@@ -1,0 +1,101 @@
+div.esup-portlet-bigbluebutton {
+	padding: 10px 20px;
+}
+
+div.esup-portlet-bigbluebutton div.portlet-section-data table {
+	border: 2px solid #000;
+	background: #fff;
+	width: 100%;
+}
+
+div.esup-portlet-bigbluebutton div.portlet-section-menu {
+	float: right;
+	padding: 15px 0;
+}
+
+div.esup-portlet-bigbluebutton div.portlet-section-body {
+	clear: both;
+}
+
+div.esup-portlet-bigbluebutton div.portlet-section-data table td {
+	font-size: 10pt;
+	padding: 5px 10px;
+	border-bottom: 1px solid #ddd;
+	text-align: left;
+}
+
+div.esup-portlet-bigbluebutton table th {
+	
+}
+
+div.esup-portlet-bigbluebutton div.success {
+	font-size: 14pt;
+	background: url(../images/accept.png) left 5px no-repeat;
+	padding: 0px;
+	padding-left: 20px;
+	margin: 0px 0px 10px;
+	color: #060;
+	width: 80%;
+}
+
+div.esup-portlet-bigbluebutton a.update,
+div.esup-portlet-bigbluebutton a.delete,
+div.esup-portlet-bigbluebutton a.add,
+div.esup-portlet-bigbluebutton a.view,
+div.esup-portlet-bigbluebutton a.bbb,
+div.esup-portlet-bigbluebutton a.back,
+div.esup-portlet-bigbluebutton a.mail,
+div.esup-portlet-bigbluebutton a.ldap
+	{
+	font-size: 9pt;
+	color: #900;
+	font-wight: bold;
+	padding-left: 20px;
+	text-decoration: none;
+}
+
+div.esup-portlet-bigbluebutton a.update {
+	background: url(../images/update.png) left center no-repeat;
+}
+
+div.esup-portlet-bigbluebutton a.delete {
+	background: url(../images/delete.png) left center no-repeat;
+}
+
+div.esup-portlet-bigbluebutton a.add {
+	background: url(../images/add.png) left center no-repeat;
+}
+
+div.esup-portlet-bigbluebutton a.view {
+	background: url(../images/view.png) left center no-repeat;
+}
+
+div.esup-portlet-bigbluebutton a.mail {
+	background: url(../images/mail.png) left center no-repeat;
+}
+
+div.esup-portlet-bigbluebutton a.ldap {
+	background: url(../images/ldap.png) left center no-repeat;
+}
+
+div.esup-portlet-bigbluebutton a.bbb {
+	background: url(../images/bbb.png) left center no-repeat;
+}
+
+div.esup-portlet-bigbluebutton a.back {
+	background: url(../images/prev.gif) left center no-repeat;
+}
+
+div.esup-portlet-bigbluebutton a.update:hover,
+div.esup-portlet-bigbluebutton a.delete:hover,
+div.esup-portlet-bigbluebutton a.add:hover,
+div.esup-portlet-bigbluebutton a.view:hover,
+div.esup-portlet-bigbluebutton a.mail:hover,
+div.esup-portlet-bigbluebutton a.ldap:hover
+	{
+	color: #000;
+}
+
+div.esup-portlet-bigbluebutton input.text {
+	border: 2px solid #aaa;
+}
