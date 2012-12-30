@@ -1,5 +1,7 @@
 target
 config.properties
+BBBData.log
+BBBData.properties
 .project
 .settings
 .classpath
