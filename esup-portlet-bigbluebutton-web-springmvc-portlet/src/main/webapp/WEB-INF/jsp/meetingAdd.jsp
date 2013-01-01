@@ -65,28 +65,6 @@
 				</tr>
 				<tr>
 					<th class="portlet-form-field-label"><spring:message
-							code="meeting.label.attendeePW" />
-					</th>
-					<td><form:input cssClass="portlet-form-input-field"
-							path="attendeePW" size="30" maxlength="80" />
-					</td>
-					<td><form:errors cssClass="portlet-msg-error"
-							path="attendeePW" />
-					</td>
-				</tr>
-				<tr>
-					<th class="portlet-form-field-label"><spring:message
-							code="meeting.label.moderatorPW" />
-					</th>
-					<td><form:input cssClass="portlet-form-input-field"
-							path="moderatorPW" size="30" maxlength="80" />
-					</td>
-					<td><form:errors cssClass="portlet-msg-error"
-							path="moderatorPW" />
-					</td>
-				</tr>
-				<tr>
-					<th class="portlet-form-field-label"><spring:message
 							code="meeting.label.meetingDate" />
 					</th>
 					<td><form:input cssClass="portlet-form-input-field"

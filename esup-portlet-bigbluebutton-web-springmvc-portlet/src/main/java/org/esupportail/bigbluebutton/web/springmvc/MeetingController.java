@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+import java.util.UUID;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -250,8 +251,14 @@ public class MeetingController extends AbstractExceptionController {
 				Random random = new Random();
 				Integer n = 70000 + random.nextInt(9999);
 				
+				// generate a random moderator PW
+				String mPW = UUID.randomUUID().toString();
+				
+				// generate a random attendee PW
+				String aPW = UUID.randomUUID().toString();
+				
 				// add meeting
-				Integer insertedId = domainService.addMeeting(meeting.getName(), meeting.getWelcome(), meeting.getAttendeePW(),meeting.getModeratorPW(),
+				Integer insertedId = domainService.addMeeting(meeting.getName(), meeting.getWelcome(), aPW, mPW,
 						n, meeting.getMeetingDate(), meeting.getMeetingDuration(), request.getRemoteUser(), null, new Date());
 				
 				// Logs
@@ -263,7 +270,7 @@ public class MeetingController extends AbstractExceptionController {
 				//Send email notification
 				
 
-				String joinUrl = domainService.getJoinMeetingURL("Invité", insertedId.toString(), meeting.getAttendeePW());
+				String joinUrl = domainService.getJoinMeetingURL("Invité", insertedId.toString(), aPW);
 				try {
 					User currentUser = authenticator.getUser();
 					// Logs
@@ -274,9 +281,9 @@ public class MeetingController extends AbstractExceptionController {
 					
 					smtpService.send(new InternetAddress(currentUser.getEmailAdress()),
 							i18nService.getString("meeting.email.add.subject"),//"Création d'une conférence", 
-							i18nService.getString("meeting.email.add.htmlcontent", currentUser.getDisplayName(), meeting.getName(), WebUtils.formatDate(meeting.getMeetingDate()),meeting.getVoiceBridge()
+							i18nService.getString("meeting.email.add.htmlcontent", currentUser.getDisplayName(), meeting.getName(), WebUtils.formatDate(meeting.getMeetingDate()),n
 									, meeting.getWelcome(), joinUrl), 
-									i18nService.getString("meeting.email.add.htmlcontent", currentUser.getDisplayName(), meeting.getName(), WebUtils.formatDate(meeting.getMeetingDate()),meeting.getVoiceBridge()
+									i18nService.getString("meeting.email.add.htmlcontent", currentUser.getDisplayName(), meeting.getName(), WebUtils.formatDate(meeting.getMeetingDate()),n
 											, meeting.getWelcome(), joinUrl));
 				
 				
