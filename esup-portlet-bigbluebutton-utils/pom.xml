@@ -4,7 +4,7 @@
     <parent>
         <artifactId>esup-portlet-bigbluebutton</artifactId>
         <groupId>org.esupportail.bigbluebutton</groupId>
-        <version>1.0.0</version>
+        <version>1.1.0-SNAPSHOT</version>
     </parent>
     <groupId>org.esupportail.bigbluebutton</groupId>
     <artifactId>esup-portlet-bigbluebutton-utils</artifactId>

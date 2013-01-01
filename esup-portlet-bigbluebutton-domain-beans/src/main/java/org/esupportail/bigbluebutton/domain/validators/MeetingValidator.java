@@ -38,9 +38,9 @@ public class MeetingValidator implements Validator {
         Meeting meeting = (Meeting)obj;
         validateName(meeting, errors);
         validateWelcome(meeting, errors);
-        validateAttendeePW(meeting, errors);
-        validateModeratorPW(meeting, errors);
-        validateVoiceBridge(meeting, errors);
+        //validateAttendeePW(meeting, errors);
+        //validateModeratorPW(meeting, errors);
+        //validateVoiceBridge(meeting, errors);
         validateMeetingDate(meeting, errors);
         validateMeetingDuration(meeting, errors);
     }
