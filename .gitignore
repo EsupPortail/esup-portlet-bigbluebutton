@@ -5,3 +5,4 @@ BBBData.properties
 .project
 .settings
 .classpath
+.checkstyle
