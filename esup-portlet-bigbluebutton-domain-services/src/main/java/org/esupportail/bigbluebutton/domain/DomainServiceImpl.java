@@ -3,10 +3,12 @@
  */
 package org.esupportail.bigbluebutton.domain;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.esupportail.bigbluebutton.dao.DaoService;
 import org.esupportail.bigbluebutton.domain.beans.Invitation;
 import org.esupportail.bigbluebutton.domain.beans.Meeting;
@@ -20,6 +22,8 @@ import org.esupportail.commons.utils.Assert;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 
 
@@ -590,6 +594,135 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 	@Override
 	public void deleteInvitation(int id) {
 		deleteInvitation(Integer.valueOf(id));
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	//Recordings : Added for BigBlueButton 0.8
+	//
+	//////////////////////////////////////////////////////////////////////////////
+	
+	public String getRecordingsURL(String meetingID) {
+		WebUtils utils = new WebUtils();
+		String record_parameters = "meetingID=" + utils.urlEncode(meetingID);
+		
+		return BBBServerUrl + "api/getRecordings?" + record_parameters + "&checksum="
+		+ utils.checksum("getRecordings" + record_parameters + BBBSecuritySalt);
+	}
+	
+	public String getRecordings(String meetingID) {
+		//recordID,name,description,starttime,published,playback,length
+		String newXMLdoc = "<recordings>";
+		WebUtils utils = new WebUtils();
+		
+		try {
+			Document doc = null;
+			String url = getRecordingsURL(meetingID);
+			doc = utils.parseXml( utils.getURL(url) );
+			
+			//if the request succeeded, then calculate the checksum of each meeting and insert it into the document
+			NodeList recordingList = doc.getElementsByTagName("recording");
+			
+			
+			for (int i = 0; i < recordingList.getLength(); i++) {
+				Element recording = (Element) recordingList.item(i);
+				
+				if(recording.getElementsByTagName("recordID").getLength()>0){
+				
+					String recordID = recording.getElementsByTagName("recordID").item(0).getTextContent();
+					String name = recording.getElementsByTagName("name").item(0).getTextContent();
+					String description = "";
+					NodeList metadata = recording.getElementsByTagName("metadata");
+					if(metadata.getLength()>0){
+						Element metadataElem = (Element) metadata.item(0);
+						if(metadataElem.getElementsByTagName("description").getLength() > 0){
+							description = metadataElem.getElementsByTagName("description").item(0).getTextContent();
+						}
+					}
+				
+					String starttime = recording.getElementsByTagName("startTime").item(0).getTextContent();
+					try{
+						SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+						Date resultdate = new Date(Long.parseLong(starttime));
+						starttime = sdf.format(resultdate);
+					}catch(Exception e){
+					
+					}
+					String published = recording.getElementsByTagName("published").item(0).getTextContent();
+					String playback = "";
+					String length = "";
+					NodeList formats = recording.getElementsByTagName("format");
+					for (int j = 0; j < formats.getLength(); j++){
+						Element format = (Element) formats.item(j);
+						
+						String typeP = format.getElementsByTagName("type").item(0).getTextContent();
+						String urlP = format.getElementsByTagName("url").item(0).getTextContent();
+						String lengthP = format.getElementsByTagName("length").item(0).getTextContent();
+						
+						if (j != 0){
+							playback +=", ";
+						}
+						playback += StringEscapeUtils.escapeXml("<a href='" + urlP + "' target='_blank'>" + typeP + "</a>");
+						
+						if(typeP.equalsIgnoreCase("slides")){
+							length = lengthP;
+						}
+					}
+					
+					newXMLdoc += "<recording>";
+					
+					newXMLdoc += "<recordID>" + recordID + "</recordID>";
+					newXMLdoc += "<name><![CDATA[" + name + "]]></name>";
+					newXMLdoc += "<description><![CDATA[" + description + "]]></description>";
+					newXMLdoc += "<startTime>" + starttime + "</startTime>";
+					newXMLdoc += "<published>" + published + "</published>";
+					newXMLdoc += "<playback>" + playback + "</playback>";
+					newXMLdoc += "<length>" + length + "</length>";
+					
+					newXMLdoc += "</recording>";
+				}
+			}
+		}catch (Exception e) {
+			e.printStackTrace(System.out);
+			return "error: "+e.getMessage();
+		}
+		newXMLdoc += "</recordings>";
+		return newXMLdoc;
+	}
+	
+	public String getPublishRecordingsURL(boolean publish, String recordID) {
+		WebUtils utils = new WebUtils();
+		String publish_parameters = "recordID=" + utils.urlEncode(recordID)
+		+ "&publish=" + publish;
+		return BBBServerUrl + "api/publishRecordings?" + publish_parameters + "&checksum="
+		+ utils.checksum("publishRecordings" + publish_parameters + BBBSecuritySalt);
+	}
+	
+	public String setPublishRecordings(boolean publish, String recordID){
+		WebUtils utils = new WebUtils();
+		try {
+			return utils.getURL( getPublishRecordingsURL(publish,recordID));
+		} catch (Exception e) {
+			e.printStackTrace(System.out);
+		return null;
+		}
+	}
+	
+	public String getDeleteRecordingsURL(String recordID) {
+		WebUtils utils = new WebUtils();
+		String delete_parameters = "recordID=" + utils.urlEncode(recordID);
+		return BBBServerUrl + "api/deleteRecordings?" + delete_parameters + "&checksum="
+		+ utils.checksum("deleteRecordings" + delete_parameters + BBBSecuritySalt);
+	}
+	
+	public String deleteRecordings(String recordID){
+		WebUtils utils = new WebUtils();
+		try {
+			return utils.getURL( getDeleteRecordingsURL(recordID));
+		} catch (Exception e) {
+			e.printStackTrace(System.out);
+		return null;
+		}
 	}
 	
 	

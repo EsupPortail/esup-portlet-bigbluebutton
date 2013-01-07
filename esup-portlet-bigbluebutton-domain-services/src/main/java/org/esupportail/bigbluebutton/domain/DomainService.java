@@ -231,4 +231,48 @@ public interface DomainService extends Serializable {
 	 */
 	List<User> searchUserInLdap(String searchUser);
 	
+	/**
+	 * @param meetingID
+	 * @return the getRecordings URL
+	 */
+	public String getRecordingsURL(String meetingID);
+	
+	/**
+	 * @param meetingID
+	 * @return list of recording for the meeting
+	 */
+	public String getRecordings(String meetingID);
+	
+	/**
+	 * @param publish
+	 * @param recordID
+	 * @return the getPublishRecordings URL
+	 */
+	public String getPublishRecordingsURL(boolean publish, String recordID);
+	
+	
+	/**
+	 * @param publish
+	 * @param recordID
+	 * @return string (response)
+	 * set the publish status to the recording
+	 */
+	public String setPublishRecordings(boolean publish, String recordID);
+	
+	
+	/**
+	 * @param recordID
+	 * @return the getDeleteRecordings URL
+	 */
+	public String getDeleteRecordingsURL(String recordID);
+	
+	
+	/**
+	 * @param recordID
+	 * @return string (response)
+	 * delete the recording
+	 */
+	public String deleteRecordings(String recordID);
+	
+	
 }
