@@ -65,6 +65,12 @@
 				</tr>
 				<tr>
 					<th class="portlet-form-field-label"><spring:message
+							code="meeting.label.record" />
+					</th>
+					<td><input type="checkbox" disabled="disabled" <c:if test="${meeting.record==true}">checked="checked"</c:if>/></td>
+				</tr>
+				<tr>
+					<th class="portlet-form-field-label"><spring:message
 							code="meeting.label.meetingDate" />
 					</th>
 					<td><fmt:formatDate value="${meeting.meetingDate}" pattern="dd-MM-yyyy HH:mm" />

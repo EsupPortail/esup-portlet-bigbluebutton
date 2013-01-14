@@ -103,6 +103,14 @@ public class Meeting {
 	@Transient
 	private boolean isrunning;
 	
+	
+	/**
+	 * Record the meeting : TRUE or FLASE
+	 */
+	@Column(nullable=false, columnDefinition="boolean default false") 
+	@NotNull
+	private Boolean record = false;
+	
 
 	/**
      * User who create the meeting
@@ -145,6 +153,7 @@ public class Meeting {
 		this.moderatorPW = m.moderatorPW;
 		this.voiceBridge = m.voiceBridge;
 		this.meetingDate = m.meetingDate;
+		this.record = m.record;
 		this.owner = m.owner;
 		this.creationDate = m.creationDate;
 	}
@@ -162,7 +171,7 @@ public class Meeting {
 	 */
 	public Meeting(String name, String welcome, String attendeePW,
 			String moderatorPW, Integer voiceBridge, Date meetingDate, String meetingDuration,
-			String owner, List<Invitation> invitations, Date creationDate) {
+			boolean record, String owner, List<Invitation> invitations, Date creationDate) {
 		super();
 		this.name = name;
 		this.welcome = welcome;
@@ -171,6 +180,7 @@ public class Meeting {
 		this.voiceBridge = voiceBridge;
 		this.meetingDate = meetingDate;
 		this.meetingDuration = meetingDuration;
+		this.record = record;
 		this.owner = owner;
 		this.invitations = invitations;
 		this.creationDate = creationDate;
@@ -187,7 +197,7 @@ public class Meeting {
 				+ name + "], welcome=["
 				+ welcome + "], attendeePW=[" + attendeePW + "], moderatorPW=[" + moderatorPW + "], voiceBridge=["
 				+ voiceBridge + "], meetingDate=[" + meetingDate + "], meetingDuration=["
-				+ meetingDuration + "], owner=[" + owner + "],  date=[" + creationDate + "]]";
+				+ meetingDuration + "], record=[" + record + "], owner=[" + owner + "],  date=[" + creationDate + "]]";
 	}
 
 	/* ******************* Accessors ******************* */
@@ -324,6 +334,23 @@ public class Meeting {
 		this.isrunning = isrunning;
 	}
 	
+	/**
+	 * @return the record status
+	 */
+	public boolean getRecord() {
+
+		if (this.record==null)
+			this.record=false;
+		return record;
+	}
+
+	/**
+	 * @param record : TRUE if the meeting is recorded
+	 */
+	public void setRecord(boolean record) {
+		this.record = record;
+	}
+
 	/**
 	 * @return user login who added the meeting
 	 */

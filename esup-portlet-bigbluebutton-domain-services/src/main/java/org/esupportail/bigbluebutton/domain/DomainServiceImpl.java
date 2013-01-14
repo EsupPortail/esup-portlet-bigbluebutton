@@ -14,6 +14,7 @@ import org.esupportail.bigbluebutton.domain.beans.Invitation;
 import org.esupportail.bigbluebutton.domain.beans.Meeting;
 import org.esupportail.bigbluebutton.domain.beans.User;
 import org.esupportail.bigbluebutton.utils.WebUtils;
+import org.esupportail.commons.services.i18n.I18nService;
 import org.esupportail.commons.services.ldap.LdapUser;
 import org.esupportail.commons.services.ldap.LdapUserService;
 import org.esupportail.commons.services.logging.Logger;
@@ -69,7 +70,8 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 	private User chosenUser;
 	private List<User> resultSearch;
 	private LdapUserService ldapUserService;
-
+	
+	
 	/**
 	 * Constructor.
 	 */
@@ -236,10 +238,10 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 	//
 	@Override
 	public int addMeeting(String name, String welcome, String attendeePW,
-			String moderatorPW, Integer voiceBridge, Date meetingDate, String meetingDuration,
+			String moderatorPW, Integer voiceBridge, Date meetingDate, String meetingDuration, Boolean record,
 			String owner, List<Invitation> invitations, Date creationDate) {
 		Meeting meeting = new Meeting(name, welcome, attendeePW,
-				moderatorPW, voiceBridge, meetingDate, meetingDuration,
+				moderatorPW, voiceBridge, meetingDate, meetingDuration, record,
 				owner, invitations, creationDate);
 		return addMeeting(meeting);
 	}
@@ -280,62 +282,29 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 	//Create a meeting on BBB server and return a URL to join it as moderator
 	//
 	@Override
-	public String createMeeting(String meetingID, String meetingName, String welcome, String viewerPassword, String moderatorPassword, Integer voiceBridge, String username) {
+	public String createMeeting(String meetingID, String meetingName, String welcome, String viewerPassword, String moderatorPassword, Integer voiceBridge, Boolean record, String username) {
 		
-		String base_url_create = BBBServerUrl + "api/create?";
-		String base_url_join = BBBServerUrl + "api/join?";
-
-		String welcome_param = "";
-		String checksum = "";
-
-		String attendee_password_param = "&attendeePW=" + viewerPassword;
-		String moderator_password_param = "&moderatorPW=" + moderatorPassword;
-		String voice_bridge_param = "";
-		String logoutURL_param = "";
 		WebUtils utils = new WebUtils();
-
-		if ((welcome != null) && !welcome.equals("")) {
-			welcome_param = "&welcome=" + utils.urlEncode(welcome);
-		}
-
-		if ((moderatorPassword != null) && !moderatorPassword.equals("")) {
-			moderator_password_param = "&moderatorPW=" + utils.urlEncode(moderatorPassword);
-		}
-
-		if ((viewerPassword != null) && !viewerPassword.equals("")) {
-			attendee_password_param = "&attendeePW=" + utils.urlEncode(viewerPassword);
-		}
-
-		if ((voiceBridge != null) && !voiceBridge.equals("")) {
-			voice_bridge_param = "&voiceBridge=" + voiceBridge;
-		}
 		
-		if ((BBBLogoutUrl != null) && !BBBLogoutUrl.equals("")) {
-			logoutURL_param = "&logoutURL=" + utils.urlEncode(BBBLogoutUrl);
-		}
-
-		//
-		// Now create the URL
-		//
-
-		String create_parameters = "name=" + utils.urlEncode(meetingName)
-			+ "&meetingID=" + utils.urlEncode(meetingID) + welcome_param
-			+ attendee_password_param + moderator_password_param
-			+ voice_bridge_param + logoutURL_param;
+		String base_url_join = BBBServerUrl + "api/join?";
+		
+		String url = createMeetingUrl(meetingID, meetingName, welcome, viewerPassword, moderatorPassword, voiceBridge, record, username);
 
 		Document doc = null;
+		
+		// Logs
+    	if (logger.isDebugEnabled()){
+	    	logger.debug("Create meeting...........");
+	    	logger.debug("url : " + url);
+    	}
 
 		try {
 			// Attempt to create a meeting using meetingID
-			String xml = utils.getURL(base_url_create + create_parameters
-				+ "&checksum="
-				+ utils.checksum("create" + create_parameters + BBBSecuritySalt));
+			String xml = utils.getURL(url);
 			doc = utils.parseXml(xml);
 		} catch (Exception e) {
 			logger.error("Could not complete request...", e);
-			logger.error("url : " + BBBServerUrl + base_url_create + create_parameters
-					+ "&checksum="
-					+ utils.checksum("create" + create_parameters + BBBSecuritySalt));
+			logger.error("url : " + url);
 		}
     	
 		if (doc.getElementsByTagName("returncode").item(0).getTextContent().trim().equals("SUCCESS")) {
@@ -367,7 +336,7 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 	//return Create meeting url on BBB server
 	//
 	@Override
-	public String createMeetingUrl(String meetingID, String meetingName, String welcome, String viewerPassword, String moderatorPassword, Integer voiceBridge, String username) {
+	public String createMeetingUrl(String meetingID, String meetingName, String welcome, String viewerPassword, String moderatorPassword, Integer voiceBridge, Boolean record, String username) {
 		
 		String base_url_create = BBBServerUrl + "api/create?";
 		String base_url_join = BBBServerUrl + "api/join?";
@@ -379,6 +348,8 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 		String moderator_password_param = "&moderatorPW=" + moderatorPassword;
 		String voice_bridge_param = "";
 		String logoutURL_param = "";
+		String record_param = "";
+		
 		WebUtils utils = new WebUtils();
 
 		if ((welcome != null) && !welcome.equals("")) {
@@ -400,6 +371,11 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 		if ((BBBLogoutUrl != null) && !BBBLogoutUrl.equals("")) {
 			logoutURL_param = "&logoutURL=" + utils.urlEncode(BBBLogoutUrl);
 		}
+		
+		if ((record != null) && !record.equals("")) {
+			record_param = "&record=" + record.toString();
+		}
+
 
 		//
 		// Now create the URL
@@ -408,7 +384,7 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 		String create_parameters = "name=" + utils.urlEncode(meetingName)
 			+ "&meetingID=" + utils.urlEncode(meetingID) + welcome_param
 			+ attendee_password_param + moderator_password_param
-			+ voice_bridge_param + logoutURL_param;
+			+ voice_bridge_param + record_param + logoutURL_param;
 
 
 
@@ -602,6 +578,7 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 	//
 	//////////////////////////////////////////////////////////////////////////////
 	
+	@Override
 	public String getRecordingsURL(String meetingID) {
 		WebUtils utils = new WebUtils();
 		String record_parameters = "meetingID=" + utils.urlEncode(meetingID);
@@ -610,6 +587,7 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 		+ utils.checksum("getRecordings" + record_parameters + BBBSecuritySalt);
 	}
 	
+	@Override
 	public String getRecordings(String meetingID) {
 		//recordID,name,description,starttime,published,playback,length
 		String newXMLdoc = "<recordings>";
@@ -690,6 +668,7 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 		return newXMLdoc;
 	}
 	
+	@Override
 	public String getPublishRecordingsURL(boolean publish, String recordID) {
 		WebUtils utils = new WebUtils();
 		String publish_parameters = "recordID=" + utils.urlEncode(recordID)
@@ -698,6 +677,7 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 		+ utils.checksum("publishRecordings" + publish_parameters + BBBSecuritySalt);
 	}
 	
+	@Override
 	public String setPublishRecordings(boolean publish, String recordID){
 		WebUtils utils = new WebUtils();
 		try {
@@ -708,6 +688,7 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 		}
 	}
 	
+	@Override
 	public String getDeleteRecordingsURL(String recordID) {
 		WebUtils utils = new WebUtils();
 		String delete_parameters = "recordID=" + utils.urlEncode(recordID);
@@ -715,6 +696,7 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 		+ utils.checksum("deleteRecordings" + delete_parameters + BBBSecuritySalt);
 	}
 	
+	@Override
 	public String deleteRecordings(String recordID){
 		WebUtils utils = new WebUtils();
 		try {

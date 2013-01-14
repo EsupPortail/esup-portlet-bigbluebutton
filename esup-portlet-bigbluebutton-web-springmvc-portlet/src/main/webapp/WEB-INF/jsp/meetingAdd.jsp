@@ -91,6 +91,14 @@
 					</td>
 				</tr>
 				<tr>
+					<th class="portlet-form-field-label"><spring:message
+							code="meeting.label.record" />
+					</th>
+					<td><form:checkbox cssClass="portlet-form-input-field"
+							path="record"/>
+					</td>
+				</tr>
+				<tr>
 					<th colspan="3"><input type="submit" name="_finish"
 						value="<spring:message code="button.finish"/>" /> <input
 						type="submit" name="_cancel"

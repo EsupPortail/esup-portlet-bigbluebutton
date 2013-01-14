@@ -63,7 +63,7 @@ public interface DomainService extends Serializable {
 	 * @return the id of the inserted meeting
 	 */
 	public int addMeeting(String name, String welcome, String attendeePW,
-			String moderatorPW, Integer voiceBridge, Date meetingDate, String meetingDuration,
+			String moderatorPW, Integer voiceBridge, Date meetingDate, String meetingDuration, Boolean record,
 			String owner, List<Invitation> invitations, Date creationDate);
 	
 	/**
@@ -101,7 +101,7 @@ public interface DomainService extends Serializable {
 	 * @param username
 	 * @return join meeting url
 	 */
-	public String createMeeting(String meetingID, String meetingName, String welcome, String viewerPassword, String moderatorPassword, Integer voiceBridge, String username);
+	public String createMeeting(String meetingID, String meetingName, String welcome, String viewerPassword, String moderatorPassword, Integer voiceBridge, Boolean record, String username);
 	
 	/**
 	 * return Create meeting url on BBB server
@@ -114,7 +114,7 @@ public interface DomainService extends Serializable {
 	 * @param username
 	 * @return create meeting url on BBB server
 	 */
-	public String createMeetingUrl(String meetingID, String meetingName, String welcome, String viewerPassword, String moderatorPassword, Integer voiceBridge, String username);
+	public String createMeetingUrl(String meetingID, String meetingName, String welcome, String viewerPassword, String moderatorPassword, Integer voiceBridge, Boolean record, String username);
 
 	
 	/**
