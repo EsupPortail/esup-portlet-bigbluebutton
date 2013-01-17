@@ -80,9 +80,17 @@
 						</a> <a
 							href="<portlet:renderURL><portlet:param name="action" value="viewMeeting"/><portlet:param name="meeting" value="${meeting.id}"/></portlet:renderURL>"
 							class="mail"><spring:message code="invitation.view.title" />
+						</a> <a
+							href="<portlet:renderURL><portlet:param name="action" value="viewRecordings"/><portlet:param name="meeting" value="${meeting.id}"/></portlet:renderURL>"
+							class="play"><spring:message code="recording.view.title" />
 						</a> </td>
 					</tr>
 				</c:forEach>
+				<c:if test="${empty meetings}">
+					<tr>
+						<td nowrap><spring:message code="meetings.noentries" /></td>
+					</tr>				
+				</c:if>
 				<tr>
 					<td colspan="4"><a
 						href="<portlet:renderURL><portlet:param name="action" value="addMeeting"/></portlet:renderURL>"

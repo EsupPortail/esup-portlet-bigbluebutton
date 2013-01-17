@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.esupportail.bigbluebutton.domain.beans.Invitation;
 import org.esupportail.bigbluebutton.domain.beans.Meeting;
+import org.esupportail.bigbluebutton.domain.beans.Recording;
 import org.esupportail.bigbluebutton.domain.beans.User;
 
 
@@ -241,7 +242,7 @@ public interface DomainService extends Serializable {
 	 * @param meetingID
 	 * @return list of recording for the meeting
 	 */
-	public String getRecordings(String meetingID);
+	public List<Recording> getRecordings(String meetingID);
 	
 	/**
 	 * @param publish
@@ -273,6 +274,9 @@ public interface DomainService extends Serializable {
 	 * delete the recording
 	 */
 	public String deleteRecordings(String recordID);
+
+	Recording addRecording(String recordID, String name, String description,
+			String startTime, String published, String playback, String length);
 	
 	
 }

@@ -147,7 +147,30 @@ public class MeetingController extends AbstractExceptionController {
 		if (!model.containsAttribute("invitation")) {
 			model.addAttribute("invitation", new Invitation());
 		}
+		
 		return "meetingView";
+	}
+
+	
+	/**
+	 * view details of a meeting and list of recordings
+	 * @param id
+	 * @param model
+	 * @return MV
+	 * @throws Exception 
+	 */
+	@SuppressWarnings("nls")
+	@RequestMapping(params="action=viewRecordings")
+	public String viewRecordings(@RequestParam("meeting") Integer id, Model model) throws Exception {
+		model.addAttribute("meeting", domainService.getMeeting(id));
+		model.addAttribute("invitations", domainService.getInvitationsForMeeting(domainService.getMeeting(id)));
+		if (!model.containsAttribute("invitation")) {
+			model.addAttribute("invitation", new Invitation());
+		}
+		
+		model.addAttribute("recordings", domainService.getRecordings(domainService.getMeeting(id).getId().toString()));
+		
+		return "meetingRecords";
 	}
 
 	

@@ -42,8 +42,8 @@
 		onclick="return(confirm('<spring:message code="meeting.delete.confirm"/>'));"><spring:message
 			code="meeting.delete.title" />
 		</a> <a
-		href="<portlet:renderURL><portlet:param name="action" value="viewRecordings"/><portlet:param name="meeting" value="${meeting.id}"/></portlet:renderURL>"
-		class="play"><spring:message code="recording.view.title" />
+		href="<portlet:renderURL><portlet:param name="action" value="viewMeeting"/><portlet:param name="meeting" value="${meeting.id}"/></portlet:renderURL>"
+		class="mail"><spring:message code="invitation.view.title" />
 		</a> <a
 		href="<portlet:actionURL><portlet:param name="action" value="moderateMeeting"/><portlet:param name="meeting" value="${meeting.id}"/></portlet:actionURL>"
 		class="bbb"><spring:message code="meeting.moderate.title" />
@@ -101,73 +101,50 @@
 		</div>
 		<div class="portlet-section-data">
 			<h3>
-				<spring:message code="invitation.view.title" />
+				<spring:message code="recording.view.title" />
 			</h3>
+			<p><spring:message code="recording.label.warning" />
+			</p>
 			<table border="0" cellpadding="4">
 
 				<tr>
-					<th><spring:message code="invitation.label.displayname" />
+					<th><spring:message code="recording.label.name" />
 					</th>
-					<th><spring:message code="invitation.label.emailadress" />
+					<th><spring:message code="recording.label.description" />
 					</th>
-					<th><spring:message code="invitation.label.creationdate" />
+					<th><spring:message code="recording.label.length" />
 					</th>
-					<th><spring:message code="invitation.action.title" />
+					<th><spring:message code="recording.label.starttime" />
+					</th>
+					<th><spring:message code="recording.action.title" />
 					</th>
 				</tr>
 
-				<c:forEach items="${invitations}" var="invitation">
+				<c:forEach items="${recordings}" var="recording">
 					<tr>
-						<td>${invitation.displayName}</td>
-						<td>${invitation.emailAdress}</td>
-						<td><fmt:formatDate value="${invitation.creationDate}" pattern="dd-MM-yyyy HH:mm" /></td>
+						<td>${recording.name}</td>
+						<td>${recording.description}</td>
+						<td>${recording.length}</td>
+						<td>${recording.startTime}</td>
 						<td><a
-							href="<portlet:actionURL><portlet:param name="action" value="sendInvitation"/><portlet:param name="invitation" value="${invitation.id}"/></portlet:actionURL>"
-							class="mail"><spring:message code="invitation.email.sendagain" />
+							href="<portlet:actionURL><portlet:param name="action" value="playRecording"/><portlet:param name="playback" value="${recording.playback}"/></portlet:actionURL>"
+							class="play"><spring:message code="recording.playback.view" />
 						</a> <a
-							href="<portlet:actionURL><portlet:param name="action" value="deleteInvitation"/><portlet:param name="invitation" value="${invitation.id}"/></portlet:actionURL>"
+							href="<portlet:actionURL><portlet:param name="action" value="deleteRecording"/><portlet:param name="recordID" value="${recording.recordID}"/><portlet:param name="meeting" value="${meeting.id}"/></portlet:actionURL>"
 							class="delete"
-							onclick="return(confirm('<spring:message code="invitation.delete.confirm"/>'));"><spring:message
-									code="invitation.delete.title" />
+							onclick="return(confirm('<spring:message code="recording.delete.confirm"/>'));"><spring:message
+									code="recording.delete.title" />
 						</a></td>
 					</tr>
 				</c:forEach>
+				<c:if test="${empty recordings}">
+					<tr>
+						<td nowrap><spring:message code="recording.playback.noentries" /></td>
+					</tr>				
+				</c:if>
 				
-				<portlet:actionURL var="actionUrl">
-					<portlet:param name="action" value="addInvitation" />
-				</portlet:actionURL>
-				
-				<form:form modelAttribute="invitation" name="invitation" method="post" action="${actionUrl}">
-				<input name="meeting" type="hidden" value="${meeting.id}"/>
-				<tr>
-					<td><form:input cssClass="portlet-form-input-field"
-							path="displayName" size="30" maxlength="100" />
-						
-					</td>
-					<td><form:input cssClass="portlet-form-input-field"
-							path="emailAdress" size="30" maxlength="100" />
-					</td>
-					<td>
-					</td>
-					<td><input type="submit" name="_finish" value="<spring:message code="button.sendinvitation"/>" />
-					</td>
-				</tr>
-
-				<tr>
-					<td><form:errors cssClass="portlet-msg-error" path="displayName" /></td>
-					<td colspan="2"><form:errors cssClass="portlet-msg-error" path="emailAdress" /></td>
-				</tr>
-				</form:form>
-				<tr>
-					<td><a href="<portlet:renderURL><portlet:param name="action" value="ldapSearch"/>
-							<portlet:param name="meeting" value="${meeting.id}"/></portlet:renderURL>" class="ldap">
-							<spring:message code="ldapsearch.shorttitle" />
-						</a>
-					</td>
-				</tr>
-			</table>
+				</table>
 		</div>
-		
 	</div>
 	<div class="portlet-section-footer">
 		

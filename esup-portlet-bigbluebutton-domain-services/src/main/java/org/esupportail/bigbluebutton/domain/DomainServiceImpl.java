@@ -12,6 +12,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.esupportail.bigbluebutton.dao.DaoService;
 import org.esupportail.bigbluebutton.domain.beans.Invitation;
 import org.esupportail.bigbluebutton.domain.beans.Meeting;
+import org.esupportail.bigbluebutton.domain.beans.Recording;
 import org.esupportail.bigbluebutton.domain.beans.User;
 import org.esupportail.bigbluebutton.utils.WebUtils;
 import org.esupportail.commons.services.i18n.I18nService;
@@ -588,14 +589,22 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 	}
 	
 	@Override
-	public String getRecordings(String meetingID) {
+	public List<Recording> getRecordings(String meetingID) {
 		//recordID,name,description,starttime,published,playback,length
-		String newXMLdoc = "<recordings>";
+		//String newXMLdoc = "<recordings>";
+		
+		List<Recording> recordings = new ArrayList<Recording>();
+		
 		WebUtils utils = new WebUtils();
 		
 		try {
 			Document doc = null;
 			String url = getRecordingsURL(meetingID);
+			// Logs
+	    	if (logger.isDebugEnabled()){
+		    	logger.debug("Getting records...........");
+		    	logger.debug("url : " + url);
+	    	}
 			doc = utils.parseXml( utils.getURL(url) );
 			
 			//if the request succeeded, then calculate the checksum of each meeting and insert it into the document
@@ -640,32 +649,48 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 						if (j != 0){
 							playback +=", ";
 						}
-						playback += StringEscapeUtils.escapeXml("<a href='" + urlP + "' target='_blank'>" + typeP + "</a>");
+						//playback += StringEscapeUtils.escapeXml("<a href='" + urlP + "' target='_blank'>" + typeP + "</a>");
+						playback += StringEscapeUtils.escapeXml( urlP );
 						
 						if(typeP.equalsIgnoreCase("slides")){
 							length = lengthP;
 						}
 					}
 					
-					newXMLdoc += "<recording>";
+//					newXMLdoc += "<recording>";
+//					newXMLdoc += "<recordID>" + recordID + "</recordID>";
+//					newXMLdoc += "<name><![CDATA[" + name + "]]></name>";
+//					newXMLdoc += "<description><![CDATA[" + description + "]]></description>";
+//					newXMLdoc += "<startTime>" + starttime + "</startTime>";
+//					newXMLdoc += "<published>" + published + "</published>";
+//					newXMLdoc += "<playback>" + playback + "</playback>";
+//					newXMLdoc += "<length>" + length + "</length>";
+//					newXMLdoc += "</recording>";
 					
-					newXMLdoc += "<recordID>" + recordID + "</recordID>";
-					newXMLdoc += "<name><![CDATA[" + name + "]]></name>";
-					newXMLdoc += "<description><![CDATA[" + description + "]]></description>";
-					newXMLdoc += "<startTime>" + starttime + "</startTime>";
-					newXMLdoc += "<published>" + published + "</published>";
-					newXMLdoc += "<playback>" + playback + "</playback>";
-					newXMLdoc += "<length>" + length + "</length>";
 					
-					newXMLdoc += "</recording>";
+					// Logs
+			    	if (logger.isDebugEnabled()){
+				    	logger.debug("Getting currentRecord...........");
+				    	logger.debug("recordID : " + recordID);
+				    	logger.debug("name : " + name);
+				    	logger.debug("description : " + description);
+				    	logger.debug("starttime : " + starttime);
+				    	logger.debug("published : " + published);
+				    	logger.debug("playback : " + playback);
+				    	logger.debug("length : " + length);
+				    	logger.debug("recordings size : " + recordings.size());
+			    	}
+					
+					recordings.add(addRecording(recordID, name, description, starttime, published, playback, length));
+					
 				}
 			}
 		}catch (Exception e) {
 			e.printStackTrace(System.out);
-			return "error: "+e.getMessage();
+			//return "error: "+e.getMessage();
 		}
-		newXMLdoc += "</recordings>";
-		return newXMLdoc;
+		//newXMLdoc += "</recordings>";
+		return recordings;
 	}
 	
 	@Override
@@ -700,11 +725,21 @@ public class DomainServiceImpl implements DomainService, InitializingBean {
 	public String deleteRecordings(String recordID){
 		WebUtils utils = new WebUtils();
 		try {
-			return utils.getURL( getDeleteRecordingsURL(recordID));
+			return utils.getURL(getDeleteRecordingsURL(recordID));
 		} catch (Exception e) {
 			e.printStackTrace(System.out);
 		return null;
 		}
+	}
+	
+	//
+	// Add a recording instance
+	//
+	@Override
+	public Recording addRecording(String recordID, String name, String description,
+			String starttime, String published, String playback, String length) {
+		Recording recording = new Recording(recordID, name, description, starttime, published, playback, length);
+		return recording;
 	}
 	
 	
