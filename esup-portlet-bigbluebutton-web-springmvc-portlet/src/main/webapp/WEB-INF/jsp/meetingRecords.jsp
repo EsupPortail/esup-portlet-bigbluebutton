@@ -108,9 +108,9 @@
 			<table border="0" cellpadding="4">
 
 				<tr>
-					<th><spring:message code="recording.label.name" />
+					<th><spring:message code="recording.label.recordID" />
 					</th>
-					<th><spring:message code="recording.label.description" />
+					<th><spring:message code="recording.label.name" />
 					</th>
 					<th><spring:message code="recording.label.length" />
 					</th>
@@ -122,8 +122,8 @@
 
 				<c:forEach items="${recordings}" var="recording">
 					<tr>
+						<td>${recording.recordID}</td>
 						<td>${recording.name}</td>
-						<td>${recording.description}</td>
 						<td>${recording.length}</td>
 						<td>${recording.startTime}</td>
 						<td><a
