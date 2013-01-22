@@ -104,7 +104,7 @@ public class MeetingController extends AbstractExceptionController {
 	protected void initBinder(PortletRequestDataBinder binder) throws Exception {
 	    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.FRANCE);
 	    binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
-	    binder.setAllowedFields(new String[] {"name","welcome","attendeePW","moderatorPW","voiceBridge","meetingDate","meetingDuration"});
+	    binder.setAllowedFields(new String[] {"name","welcome","attendeePW","moderatorPW","voiceBridge","meetingDate","meetingDuration", "record"});
 	}
 
 	/**
@@ -147,7 +147,30 @@ public class MeetingController extends AbstractExceptionController {
 		if (!model.containsAttribute("invitation")) {
 			model.addAttribute("invitation", new Invitation());
 		}
+		
 		return "meetingView";
+	}
+
+	
+	/**
+	 * view details of a meeting and list of recordings
+	 * @param id
+	 * @param model
+	 * @return MV
+	 * @throws Exception 
+	 */
+	@SuppressWarnings("nls")
+	@RequestMapping(params="action=viewRecordings")
+	public String viewRecordings(@RequestParam("meeting") Integer id, Model model) throws Exception {
+		model.addAttribute("meeting", domainService.getMeeting(id));
+		model.addAttribute("invitations", domainService.getInvitationsForMeeting(domainService.getMeeting(id)));
+		if (!model.containsAttribute("invitation")) {
+			model.addAttribute("invitation", new Invitation());
+		}
+		
+		model.addAttribute("recordings", domainService.getRecordings(domainService.getMeeting(id).getId().toString()));
+		
+		return "meetingRecords";
 	}
 
 	
@@ -178,11 +201,22 @@ public class MeetingController extends AbstractExceptionController {
 			Meeting meeting = domainService.getMeeting(id);
 			String url;
 			if ((domainService.isMeetingRunning(meeting.getId().toString())!="SUCCESS")) {
+				
+				String welcome = "";
+				if ((meeting.getWelcome() != null) && !meeting.getWelcome().equals("")) {
+					welcome = meeting.getWelcome();
+				}
+				
+				if (meeting.getRecord()==true){
+					welcome = welcome + i18nService.getString("meeting.recording.message");
+				}
+				
 				url = domainService.createMeeting(meeting.getId().toString(), meeting.getName(), 
-						meeting.getWelcome(), meeting.getAttendeePW(), meeting.getModeratorPW(), meeting.getVoiceBridge(), meeting.getOwner());
+						welcome, meeting.getAttendeePW(), meeting.getModeratorPW(), meeting.getVoiceBridge(), meeting.getRecord(), meeting.getOwner());
 			} else {
 				url = domainService.getJoinMeetingURL(request.getRemoteUser(), meeting.getId().toString(), meeting.getModeratorPW());
 			}
+
 			response.sendRedirect(url);
 	}
 	
@@ -259,7 +293,7 @@ public class MeetingController extends AbstractExceptionController {
 				
 				// add meeting
 				Integer insertedId = domainService.addMeeting(meeting.getName(), meeting.getWelcome(), aPW, mPW,
-						n, meeting.getMeetingDate(), meeting.getMeetingDuration(), request.getRemoteUser(), null, new Date());
+						n, meeting.getMeetingDate(), meeting.getMeetingDuration(), meeting.getRecord(), request.getRemoteUser(), null, new Date());
 				
 				// Logs
 		    	if (logger.isDebugEnabled()){

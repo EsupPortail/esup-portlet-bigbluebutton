@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.esupportail.bigbluebutton.domain.beans.Invitation;
 import org.esupportail.bigbluebutton.domain.beans.Meeting;
+import org.esupportail.bigbluebutton.domain.beans.Recording;
 import org.esupportail.bigbluebutton.domain.beans.User;
 
 
@@ -63,7 +64,7 @@ public interface DomainService extends Serializable {
 	 * @return the id of the inserted meeting
 	 */
 	public int addMeeting(String name, String welcome, String attendeePW,
-			String moderatorPW, Integer voiceBridge, Date meetingDate, String meetingDuration,
+			String moderatorPW, Integer voiceBridge, Date meetingDate, String meetingDuration, Boolean record,
 			String owner, List<Invitation> invitations, Date creationDate);
 	
 	/**
@@ -101,7 +102,7 @@ public interface DomainService extends Serializable {
 	 * @param username
 	 * @return join meeting url
 	 */
-	public String createMeeting(String meetingID, String meetingName, String welcome, String viewerPassword, String moderatorPassword, Integer voiceBridge, String username);
+	public String createMeeting(String meetingID, String meetingName, String welcome, String viewerPassword, String moderatorPassword, Integer voiceBridge, Boolean record, String username);
 	
 	/**
 	 * return Create meeting url on BBB server
@@ -114,7 +115,7 @@ public interface DomainService extends Serializable {
 	 * @param username
 	 * @return create meeting url on BBB server
 	 */
-	public String createMeetingUrl(String meetingID, String meetingName, String welcome, String viewerPassword, String moderatorPassword, Integer voiceBridge, String username);
+	public String createMeetingUrl(String meetingID, String meetingName, String welcome, String viewerPassword, String moderatorPassword, Integer voiceBridge, Boolean record, String username);
 
 	
 	/**
@@ -230,5 +231,52 @@ public interface DomainService extends Serializable {
 	 * @return ldap users
 	 */
 	List<User> searchUserInLdap(String searchUser);
+	
+	/**
+	 * @param meetingID
+	 * @return the getRecordings URL
+	 */
+	public String getRecordingsURL(String meetingID);
+	
+	/**
+	 * @param meetingID
+	 * @return list of recording for the meeting
+	 */
+	public List<Recording> getRecordings(String meetingID);
+	
+	/**
+	 * @param publish
+	 * @param recordID
+	 * @return the getPublishRecordings URL
+	 */
+	public String getPublishRecordingsURL(boolean publish, String recordID);
+	
+	
+	/**
+	 * @param publish
+	 * @param recordID
+	 * @return string (response)
+	 * set the publish status to the recording
+	 */
+	public String setPublishRecordings(boolean publish, String recordID);
+	
+	
+	/**
+	 * @param recordID
+	 * @return the getDeleteRecordings URL
+	 */
+	public String getDeleteRecordingsURL(String recordID);
+	
+	
+	/**
+	 * @param recordID
+	 * @return string (response)
+	 * delete the recording
+	 */
+	public String deleteRecordings(String recordID);
+
+	Recording addRecording(String recordID, String name, String description,
+			String startTime, String published, String playback, String length);
+	
 	
 }
