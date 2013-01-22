@@ -29,7 +29,7 @@ public class DomainServiceTest extends TestCase {
 	
 	@Test
 	public void testAddMeetingStringStringStringStringIntegerDateStringStringDate() {
-		Meeting m=new Meeting("junittest", "test", "test", "test", 71000, new Date(), "02:00", "admin", null, new Date());
+		Meeting m=new Meeting("junittest", "test", "test", "test", 71000, new Date(), "02:00", true, "admin", null, new Date());
 		domainService.addMeeting(m);
 		List<Meeting> l = domainService.getAllMeetings();
 		
@@ -49,7 +49,7 @@ public class DomainServiceTest extends TestCase {
 
 	// ask the controller to handle the request
 
-	String url = domainService.createMeetingUrl("test0528", "test", "welcome", "viewerPassword", "moderatorPassword", 78000, "admin");
+	String url = domainService.createMeetingUrl("test0528", "test", "welcome", "viewerPassword", "moderatorPassword", 78000, true, "admin");
 	WebUtils utils = new WebUtils();
 	Document doc = null;
 	try {
