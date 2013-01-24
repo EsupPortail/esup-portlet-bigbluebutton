@@ -105,3 +105,15 @@ div.esup-portlet-bigbluebutton a.play:hover
 div.esup-portlet-bigbluebutton input.text {
 	border: 2px solid #aaa;
 }
+
+/* HOVER STYLES */
+span.help {
+  display: none;
+  position: absolute;
+  width: 280px;
+  padding: 10px;
+  background: #eeeeee;
+  color: #000000;
+  border: 1px solid #1a1a1a;
+  font-size: 90%;
+}

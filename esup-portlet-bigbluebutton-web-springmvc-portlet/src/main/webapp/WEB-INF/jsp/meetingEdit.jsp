@@ -22,6 +22,7 @@
 
 <link rel="stylesheet" href="<html:cssPath/>main.css" type="text/css" />
 <script type="text/javascript" src="<html:jsPath/>calendar.js"></script>
+<script type="text/javascript" src="<html:jsPath/>jquery-1.4.2.min.js"></script>
 
 <div class="esup-portlet-bigbluebutton">
 
@@ -52,6 +53,13 @@
 					<tr>
 						<th class="portlet-form-field-label"><spring:message
 								code="meeting.label.name" />
+							<a href="#" id="help"><img
+								src="<html:imagesPath/>help.png" alt="<spring:message
+								code="meeting.help.alt" />">
+							</a>
+							<span class="help"><spring:message
+								code="meeting.help.name" />
+							</span>
 						</th>
 						<td><form:input cssClass="portlet-form-input-field"
 								path="name" size="30" maxlength="80" />
@@ -129,4 +137,21 @@
 	<div class="portlet-section-footer">
 		</a>
 	</div>
+	
+	<script type="text/javascript">
+
+  (function ($) {
+	  var moveLeft = 20;
+	  var moveDown = 10;
+
+	  $('a#help').hover(function(e) {
+	    $(this).next('span.help').css('display','inline').fadeOut(1000);
+	  });
+            
+   })(jQuery);
+    
+    
+</script>
+	
+	
 </div>
