@@ -24,6 +24,8 @@
 <script type="text/javascript" src="<html:jsPath/>jquery-1.8.0.min.js"></script>
 <script type="text/javascript" src="<html:jsPath/>jquery-ui-1.8.23.min.js"></script>
 <script  type="text/javascript" src="<html:jsPath/>jquery-ui-timepicker-addon.js"></script>
+<script type="text/javascript" src="<html:jsPath/>jquery.ui.datepicker-fr.js"></script>
+<script type="text/javascript" src="<html:jsPath/>jquery-ui-timepicker-fr.js"></script>
 
 <div class="esup-portlet-bigbluebutton">
 
