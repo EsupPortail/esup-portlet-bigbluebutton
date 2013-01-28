@@ -20,7 +20,10 @@
 <%@ include file="/WEB-INF/jsp/include.jsp"%>
 
 <link rel="stylesheet" href="<html:cssPath/>main.css" type="text/css" />
-<script type="text/javascript" src="<html:jsPath/>calendar.js"></script>
+<link rel="stylesheet" type="text/css" href="<html:cssPath/>jquery-ui-1.8.23.css" />
+<script type="text/javascript" src="<html:jsPath/>jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="<html:jsPath/>jquery-ui-1.8.23.min.js"></script>
+<script  type="text/javascript" src="<html:jsPath/>jquery-ui-timepicker-addon.js"></script>
 
 <div class="esup-portlet-bigbluebutton">
 
@@ -44,44 +47,42 @@
 
 			<table border="0" cellpadding="4">
 				<tr>
-					<th class="portlet-form-field-label"><spring:message
-							code="meeting.label.name" />
+					<th class="portlet-form-field-label"><spring:message code="meeting.label.name" />
+						<a href="#" id="help"><img src="<html:imagesPath/>help.png" alt="<spring:message code="meeting.help.alt" />"></a>
+						<span class="help"><spring:message code="meeting.help.name" /></span>
 					</th>
-					<td><form:input cssClass="portlet-form-input-field"
-							path="name" size="30" maxlength="80" />
+					<td><form:input cssClass="portlet-form-input-field"	path="name" size="30" maxlength="80" />
 					</td>
 					<td><form:errors cssClass="portlet-msg-error" path="name" />
 					</td>
 				</tr>
 				<tr>
-					<th class="portlet-form-field-label"><spring:message
-							code="meeting.label.welcome" />
+					<th class="portlet-form-field-label"><spring:message code="meeting.label.welcome" />
+						<a href="#" id="help"><img src="<html:imagesPath/>help.png" alt="<spring:message code="meeting.help.alt" />"></a>
+						<span class="help"><spring:message code="meeting.help.welcome" /></span>
 					</th>
-					<td><form:textarea cssClass="portlet-form-input-field"
-							path="welcome" rows="10" cols="30" maxlength="255" />
+					<td><form:textarea cssClass="portlet-form-input-field"	path="welcome" rows="10" cols="30" maxlength="255" />
 					</td>
 					<td><form:errors cssClass="portlet-msg-error" path="welcome" />
 					</td>
 				</tr>
 				<tr>
-					<th class="portlet-form-field-label"><spring:message
-							code="meeting.label.meetingDate" />
+					<th class="portlet-form-field-label"><spring:message code="meeting.label.meetingDate" />
+						<a href="#" id="help"><img src="<html:imagesPath/>help.png" alt="<spring:message code="meeting.help.alt" />"></a>
+						<span class="help"><spring:message code="meeting.help.meetingDate" /></span>
 					</th>
 					<td><form:input cssClass="portlet-form-input-field"
 							path="meetingDate" size="30" maxlength="80" readonly="true"
-							onclick="javascript:NewCssCal ('meetingDate','ddMMyyyy','dropdown',true,'24');" />
-						<a href="javascript:void(0);"
-						onclick="javascript:NewCssCal ('meetingDate','ddMMyyyy','dropdown',true,'24');"><img
-							src="<html:imagesPath/>cal.gif" alt="calendar" border="0">
-					</a>
+							id="date_picker" />
 					</td>
 					<td><form:errors cssClass="portlet-msg-error"
 							path="meetingDate" />
 					</td>
 				</tr>
 				<tr>
-					<th class="portlet-form-field-label"><spring:message
-							code="meeting.label.meetingDuration" />
+					<th class="portlet-form-field-label"><spring:message code="meeting.label.meetingDuration" />
+						<a href="#" id="help"><img src="<html:imagesPath/>help.png" alt="<spring:message code="meeting.help.alt" />"></a>
+						<span class="help"><spring:message code="meeting.help.meetingDuration" /></span>
 					</th>
 					<td><form:input cssClass="portlet-form-input-field"
 							path="meetingDuration" size="30" maxlength="80" />
@@ -91,8 +92,9 @@
 					</td>
 				</tr>
 				<tr>
-					<th class="portlet-form-field-label"><spring:message
-							code="meeting.label.record" />
+					<th class="portlet-form-field-label"><spring:message code="meeting.label.record" />
+						<a href="#" id="help"><img src="<html:imagesPath/>help.png" alt="<spring:message code="meeting.help.alt" />"></a>
+						<span class="help"><spring:message code="meeting.help.record" /></span>
 					</th>
 					<td><form:checkbox cssClass="portlet-form-input-field"
 							path="record"/>
@@ -112,4 +114,6 @@
 
 	<div class="portlet-section-footer">
 	</div>
+	
+	<script  type="text/javascript" src="<html:jsPath/>meeting.js"></script>
 </div>

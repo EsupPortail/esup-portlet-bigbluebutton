@@ -106,7 +106,7 @@ div.esup-portlet-bigbluebutton input.text {
 	border: 2px solid #aaa;
 }
 
-/* HOVER STYLES */
+/* hover styles in help */
 span.help {
   display: none;
   position: absolute;
@@ -117,3 +117,8 @@ span.help {
   border: 1px solid #1a1a1a;
   font-size: 90%;
 }
+
+/* css for timepicker */
+.ui-timepicker-div dl{ text-align: left; }
+.ui-timepicker-div dl dt{ height: 25px; }
+.ui-timepicker-div dl dd{ margin: -25px 0 10px 65px; }
