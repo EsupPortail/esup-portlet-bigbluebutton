@@ -9,5 +9,7 @@
 			  });
 		  
 		  $('#date_picker').datetimepicker({ dateFormat: 'dd-mm-yy' });
+		  
+		  $('#time_picker').timepicker();
 	            
 	   })(jQuery);

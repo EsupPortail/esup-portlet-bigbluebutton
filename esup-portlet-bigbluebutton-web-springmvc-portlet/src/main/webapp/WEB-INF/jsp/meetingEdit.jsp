@@ -94,7 +94,8 @@
 							<span class="help"><spring:message code="meeting.help.meetingDuration" /></span>
 						</th>
 						<td><form:input cssClass="portlet-form-input-field"
-								path="meetingDuration" size="30" maxlength="80" />
+								path="meetingDuration" size="30" maxlength="80"  readonly="true"
+								id="time_picker" />
 						</td>
 						<td><form:errors cssClass="portlet-msg-error"
 								path="meetingDuration" />
